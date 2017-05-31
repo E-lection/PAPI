@@ -1,6 +1,11 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.db import models
 
-# Create your models here.
+class PinCode(models.Model):
+    pincode = models.PositiveSmallIntegerField()
+    voter = models.PositiveIntegerField()
+    station = models.PositiveIntegerField()
+
+    creation = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return '{:6d}'.format(self.pincode)
