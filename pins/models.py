@@ -5,7 +5,7 @@ from django.db import models
 
 class PinCode(models.Model):
     pin_code = models.PositiveSmallIntegerField()
-    voter = models.PositiveIntegerField()
+    voter = models.PositiveIntegerField(unique=True)
     station = models.PositiveIntegerField()
 
     creation = models.DateTimeField(auto_now_add=True)
