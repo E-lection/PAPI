@@ -1,3 +1,14 @@
 language: python
 python: '2.7'
 script: python manage.py test pins
+deploy:
+  provider: elasticbeanstalk
+  access_key_id: AKIAILL4W3RIQMZAFTPQ
+  secret_access_key:
+    secure: gO8vPEcvTE+jg+oa7PW7SiorKx/npRJmeDBKV+Hr5NTJQj0WqS5FCRiP6pVnvMP3hQNSRhL958Ij/LqGINbhcgoDhPfR7A6/oZuWyhFnFUPVOmG1LzQNcnfJvt2+k+RVwzMorBYgMhsgsYsJkmNDcy8fB9OYK2EQWKnwA7Ma324l474H/yT5CP3ALJVIx66v9e1V6v3oshi/ijHw5Yix4Wsy7tFteGiY4xlPexnZgobR8nqxVBTGuGnaCHOB2sRiJ7UliolQJFacFI5ooqH+m/HivyyYyQPQZuN7upy17DdpxU7DcoX16KvD1nMJHfrHU2EkoJGFigDN3plBN9FiQqGFIBxMAHaBn3vssl/OEuWogxknVCs0ht197W/ReTB6OBHsJLX9CHus8TwlOYkmUFY5HaeknUPN12oZlDdJK81f2/PIdW2VpO4RVAn7CkGsQHCW8MZ/9QXi9qYSLg9FK5VTyERsav9xcTPyxKKY6WAvQucjWyevFos/cFpCs5K0qNWf3vG76qTrIcRMr/oRXCPsCNN0k0ZLD8PXv7idS6NSUV4pHB2lvg4uB/PIZHFRf7VdPyMTIBkRKlZ0TI8TOMJMK/7HSk1AnFSxHiseWyNIF+IBrT8lBQPdfECKZ9fIiDG9WM1Gdu0wRybJ+etn80viYVPXFFJ47vfkmKvj0es=
+  region: eu-west-2
+  app: e-lection-papi
+  env: papi-env
+  on:
+    repo: E-lection/PAPI
+  bucket_name: "elasticbeanstalk-eu-west-2-699181153619"
