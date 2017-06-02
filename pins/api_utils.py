@@ -2,7 +2,7 @@ import urllib2
 import json
 
 def check_votablity(votability_data):
-    return votability_json['voter_exists'] and not votability_json['used_vote']:
+    return votability_data['voter_exists'] and not votability_data['used_vote']
 
 def get_votablity_data(voter_id):
     url = 'http://voting.eelection.co.uk/check_votable/' + str(voter_id) + '/'
