@@ -4,14 +4,6 @@ from random import SystemRandom
 from .models import PinCode
 from .api_utils import get_and_check_votability
 
-
-"""
-THINGS THAT THE PIN CODE GENERATOR NEEDS TO DO:
-    CHECK A VOTER IS ELIGIBLE TO VOTE
-    INVALIDATE A VOTERS PIN CODE IF ONE ALREADY EXISTS
-    PIN CODES ARE UNIQUE TO A STATION
-    GENERATE A UNIQUE RANDOM PIN CODE
-"""
 VOTERS_GENERATING_PINS = []
 
 def generate_pin_code(voter_id, station_id):
