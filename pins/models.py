@@ -8,4 +8,4 @@ class PinCode(models.Model):
     creation = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return '{:6d}'.format(self.pincode)
+        return '{:06d}'.format(self.pincode)
