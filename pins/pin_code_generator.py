@@ -15,7 +15,7 @@ def generate_pin_code(voter_id, station_id):
             # Check for existing pin code if one exists
             pin_object = PinCode.objects.get(voter=voter_id)
         except ObjectDoesNotExist:
-            pin_object = PinCode(voter=voter_id, station=station_id)
+            pin_object = PinCode(voter=voter_id, station=station_id, pin_code=0)
             pin_object.save()
         while True:
             ran_gen = SystemRandom()
@@ -29,7 +29,7 @@ def generate_pin_code(voter_id, station_id):
                 pin_object.save()
                 voter_leave_pin_generation(voter_id)
                 return pin_code
-    voter_leave_pin_generation(voter_id)
+        voter_leave_pin_generation(voter_id)
 
 def voter_enter_pin_generation(voter_id):
     while voter_id in VOTERS_GENERATING_PINS:
