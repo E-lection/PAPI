@@ -1,8 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
 from random import SystemRandom
 
-from time import sleep
-
 from .models import PinCode
 from .api_utils import get_and_check_votability
 
