@@ -24,3 +24,14 @@ class GetPinCodeTests(TestCase):
         self.assertEqual(response.status_code, RESPONSE_OK)
         self.assertJSONEqual(response.content, { 'success' : False,
                                                  'pin_code' : None })
+
+class VerifyPinCodeTests(TestCase):
+
+    def test_endpoint_returns_repsonse(self):
+        url = reverse('pins:verify_pin_code', args=(STATION_PK, 123456,))
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, RESPONSE_OK)
+
+    def test_verify_valid_pin_for_eligible_voter(self):
+        pass

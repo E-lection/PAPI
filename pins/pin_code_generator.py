@@ -6,7 +6,7 @@ from .api_utils import get_and_check_votability
 
 VOTERS_GENERATING_PINS = []
 
-def generate_pin_code(voter_id, station_id):
+def generate_pin_code(station_id, voter_id):
     # Does the voter exist and can they vote?
     if get_and_check_votability(voter_id):
         voter_enter_pin_generation(voter_id)
