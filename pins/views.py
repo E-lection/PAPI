@@ -17,8 +17,6 @@ def get_pin_code(request, station_id, voter_id):
 def verify_pin_code(request, station_id, pin_code):
     try:
         pin_object = PinCode.objects.get(station=station_id, pin_code=pin_code)
-        return JsonResponse({ 'success' : True,
-                              'used_vote' : get_and_check_votability(pin_object.voter) })
+        return JsonResponse({ 'success' : True })
     except ObjectDoesNotExist:
-        return JsonResponse({ 'success' : False,
-                              'used_vote' : None })
+        return JsonResponse({ 'success' : False })

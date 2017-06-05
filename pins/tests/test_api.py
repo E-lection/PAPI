@@ -55,8 +55,7 @@ class VerifyPinCodeTests(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
-        self.assertJSONEqual(response.content, { 'success' : False,
-                                                 'used_vote' : None })
+        self.assertJSONEqual(response.content, { 'success' : False })
 
     @patch('pins.views.get_and_check_votability', return_value=False)
     def test_verify_valid_pin_for_eligible_voter(self, *_):
@@ -65,5 +64,4 @@ class VerifyPinCodeTests(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
-        self.assertJSONEqual(response.content, { 'success' : True,
-                                                 'used_vote' : False })
+        self.assertJSONEqual(response.content, { 'success' : True })
