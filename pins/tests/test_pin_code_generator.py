@@ -12,7 +12,7 @@ INELIGIBLE_VOTER_ID = 74
 PIN_CODES = [567890, 567890, 123456]
 i = 0
 
-def pin_code_sequence():
+def pin_code_sequence(range):
     global i
     pin_code = PIN_CODES[i]
     i += 1
