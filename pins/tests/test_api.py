@@ -13,34 +13,41 @@ INVALID_PIN = 987654
 
 RESPONSE_OK = 200
 
+
 def create_pin(station_id, voter_id, pin_code):
-    PinCode.objects.create(station=station_id, voter=voter_id, pin_code=pin_code)
+    PinCode.objects.create(
+        station=station_id, voter=voter_id, pin_code=pin_code)
+
 
 class GetPinCodeTests(TestCase):
 
     def test_endpoint_returns_repsonse(self):
-        url = reverse('pins:get_pin_code', args=(STATION_PK, ELIGIBLE_VOTER_PK,))
+        url = reverse('pins:get_pin_code', args=(
+            STATION_PK, ELIGIBLE_VOTER_PK,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
 
     def test_generate_pin_returns_none_for_invalid_voter(self):
-        url = reverse('pins:get_pin_code', args=(STATION_PK, INELIGBLE_VOTER_PK,))
+        url = reverse('pins:get_pin_code', args=(
+            STATION_PK, INELIGBLE_VOTER_PK,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
-        self.assertJSONEqual(response.content, { 'success' : False,
-                                                 'pin_code' : None })
+        self.assertJSONEqual(response.content, {'success': False,
+                                                'pin_code': None})
 
     @patch('pins.pin_code_generator.SystemRandom.randrange', return_value=123456)
     @patch('pins.pin_code_generator.get_and_check_votability', return_value=True)
-    def test_generate_pin_returns_pin_for_eligible_voter(self, _1, _2):
-        url = reverse('pins:get_pin_code', args=(STATION_PK, ELIGIBLE_VOTER_PK,))
+    def test_generate_pin_returns_pin_for_eligible_voter(self, *_):
+        url = reverse('pins:get_pin_code', args=(
+            STATION_PK, ELIGIBLE_VOTER_PK,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
-        self.assertJSONEqual(response.content, { 'success' : True,
-                                                 'pin_code' : 123456 })
+        self.assertJSONEqual(response.content, {'success': True,
+                                                'pin_code': 123456})
+
 
 class VerifyPinCodeTests(TestCase):
 
@@ -55,13 +62,14 @@ class VerifyPinCodeTests(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
-        self.assertJSONEqual(response.content, { 'success' : False })
+        self.assertJSONEqual(response.content, {'success': False})
 
     @patch('pins.views.get_and_check_votability', return_value=False)
     def test_verify_valid_pin_for_eligible_voter(self, *_):
-        create_pin(station_id=STATION_PK, voter_id=ELIGIBLE_VOTER_PK, pin_code=VALID_PIN)
+        create_pin(station_id=STATION_PK,
+                   voter_id=ELIGIBLE_VOTER_PK, pin_code=VALID_PIN)
         url = reverse('pins:verify_pin_code', args=(STATION_PK, VALID_PIN,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
-        self.assertJSONEqual(response.content, { 'success' : True })
+        self.assertJSONEqual(response.content, {'success': True})

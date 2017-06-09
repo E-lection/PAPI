@@ -6,6 +6,7 @@ from .api_utils import get_and_check_votability
 
 VOTERS_GENERATING_PINS = []
 
+
 def generate_pin_code(station_id, voter_id):
     # Does the voter exist and can they vote?
     if get_and_check_votability(voter_id):
@@ -31,11 +32,13 @@ def generate_pin_code(station_id, voter_id):
                 return pin_code
         voter_leave_pin_generation(voter_id)
 
+
 def voter_enter_pin_generation(voter_id):
     while voter_id in VOTERS_GENERATING_PINS:
         pass
     else:
         VOTERS_GENERATING_PINS.append(voter_id)
+
 
 def voter_leave_pin_generation(voter_id):
     VOTERS_GENERATING_PINS.remove(voter_id)

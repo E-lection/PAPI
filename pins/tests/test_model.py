@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from ..models import PinCode
 
+
 class PinCodeModelTests(TestCase):
 
     def test_string_representation(self):

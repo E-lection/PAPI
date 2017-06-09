@@ -3,6 +3,7 @@ import datetime
 from django.utils import timezone
 from django.db import models
 
+
 class PinCode(models.Model):
     pin_code = models.PositiveSmallIntegerField()
     voter = models.PositiveIntegerField(unique=True)
