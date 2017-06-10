@@ -46,30 +46,43 @@ class GetPinCodeTests(TestCase):
 
         self.assertEqual(response.status_code, RESPONSE_OK)
         self.assertJSONEqual(response.content, {'success': True,
-                                                'pin_code': 123456})
+                                                'pin_code': '123456'})
 
 
 class VerifyPinCodeTests(TestCase):
 
     def test_endpoint_returns_repsonse(self):
-        url = reverse('pins:verify_pin_code', args=(STATION_PK, VALID_PIN,))
+        url = reverse('pins:verify_pin_code_and_check_eligibility', args=(STATION_PK, VALID_PIN,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
 
     def test_verify_pin_for_invalid_pin(self):
-        url = reverse('pins:verify_pin_code', args=(STATION_PK, INVALID_PIN,))
+        url = reverse('pins:verify_pin_code_and_check_eligibility', args=(STATION_PK, INVALID_PIN,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
-        self.assertJSONEqual(response.content, {'success': False})
+        self.assertJSONEqual(response.content, {'already_voted' : None,
+                                                'valid_pin' : False})
 
-    @patch('pins.views.get_and_check_votability', return_value=False)
+    @patch('pins.views.get_and_check_votability', return_value=True)
     def test_verify_valid_pin_for_eligible_voter(self, *_):
         create_pin(station_id=STATION_PK,
                    voter_id=ELIGIBLE_VOTER_PK, pin_code=VALID_PIN)
-        url = reverse('pins:verify_pin_code', args=(STATION_PK, VALID_PIN,))
+        url = reverse('pins:verify_pin_code_and_check_eligibility', args=(STATION_PK, VALID_PIN,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
-        self.assertJSONEqual(response.content, {'success': True})
+        self.assertJSONEqual(response.content, {'already_voted' : False,
+                                                'valid_pin' : True})
+
+    @patch('pins.views.get_and_check_votability', return_value=False)
+    def test_verify_valid_pin_for_ineligible_voter(self, *_):
+        create_pin(station_id=STATION_PK,
+                   voter_id=ELIGIBLE_VOTER_PK, pin_code=VALID_PIN)
+        url = reverse('pins:verify_pin_code_and_check_eligibility', args=(STATION_PK, VALID_PIN,))
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, RESPONSE_OK)
+        self.assertJSONEqual(response.content, {'already_voted' : True,
+                                                'valid_pin' : True})
