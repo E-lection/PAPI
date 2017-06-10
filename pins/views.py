@@ -20,22 +20,23 @@ def verify_pin_code_and_check_eligibility(request, station_id, pin_code):
     try:
         pin_object = PinCode.objects.get(station=station_id, pin_code=pin_code)
         # Pin exists #
-        if get_and_check_votability(pin_object.voter):
+        if pin_object.is_valid() and get_and_check_votability(pin_object.voter):
             return JsonResponse({'valid_pin': True,
-                                 'already_voted' : False})
-        return JsonResponse({'valid_pin' : True,
-                             'already_voted' : True})
+                                 'already_voted': False})
+        return JsonResponse({'valid_pin': True,
+                             'already_voted': True})
     except ObjectDoesNotExist:
-        return JsonResponse({'valid_pin' : False,
-                             'already_voted' : None})
+        return JsonResponse({'valid_pin': False,
+                             'already_voted': None})
+
 
 def verify_pin_code_and_make_ineligible(request, station_id, pin_code):
     try:
         pin_object = PinCode.objects.get(station=station_id, pin_code=pin_code)
         # Pin exists #
         if make_voter_ineligible(pin_object.voter):
-            # Invalidate PIN
-            return JsonResponse({'success' : True})
+            PinCode.objects.get(station=station_id, pin_code=pin_code).delete()
+            return JsonResponse({'success': True})
     except ObjectDoesNotExist:
         pass
-    return JsonResponse({'success' : True})
+    return JsonResponse({'success': True})

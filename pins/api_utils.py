@@ -11,7 +11,7 @@ def check_votablity(votability_data):
 
 
 def get_votablity_data(voter_id):
-    url = VOTER_API_URL + urllib.quote(voter_id) + '/'
+    url = VOTER_API_URL + urllib.quote(str(voter_id)) + '/'
     response = urllib2.urlopen(url)
     return json.loads(response.read())
 
