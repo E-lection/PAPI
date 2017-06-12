@@ -21,14 +21,16 @@ def create_pin(station_id, voter_id, pin_code):
 
 class GetPinCodeTests(TestCase):
 
-    def test_endpoint_returns_repsonse(self):
+    @patch('pins.views.activate_pin', return_value=True)
+    def test_endpoint_returns_repsonse(self, *_):
         url = reverse('pins:get_pin_code', args=(
             STATION_PK, ELIGIBLE_VOTER_PK,))
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, RESPONSE_OK)
 
-    def test_generate_pin_returns_none_for_invalid_voter(self):
+    @patch('pins.views.activate_pin', return_value=True)
+    def test_generate_pin_returns_none_for_invalid_voter(self, *_):
         url = reverse('pins:get_pin_code', args=(
             STATION_PK, INELIGBLE_VOTER_PK,))
         response = self.client.get(url)
@@ -39,6 +41,7 @@ class GetPinCodeTests(TestCase):
 
     @patch('pins.pin_code_generator.SystemRandom.randrange', return_value=123456)
     @patch('pins.pin_code_generator.get_and_check_votability', return_value=True)
+    @patch('pins.views.activate_pin', return_value=True)
     def test_generate_pin_returns_pin_for_eligible_voter(self, *_):
         url = reverse('pins:get_pin_code', args=(
             STATION_PK, ELIGIBLE_VOTER_PK,))
