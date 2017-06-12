@@ -3,6 +3,7 @@ import urllib
 import json
 
 VOTER_API_URL = 'http://voting.eelection.co.uk/check_votable/'
+PIN_ACTIVATION_URL = 'http://voting.eelection.co.uk/set_voter_has_active_pin/'
 
 
 def check_votablity(votability_data):
@@ -20,6 +21,13 @@ def get_and_check_votability(voter_id):
     # Returns TRUE if someone can vote
     return check_votablity(get_votablity_data(voter_id))
 
+
 def make_voter_ineligible(voter_id):
     # TODO
     return True
+
+
+def activate_pin(voter_id):
+    url = PIN_ACTIVATION_URL + urllib.quote(str(voter_id)) + '/'
+    response = urllib2.urlopen(url)
+    return json.loads(response.read())
