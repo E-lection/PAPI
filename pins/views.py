@@ -20,7 +20,7 @@ def verify_pin_code_and_check_eligibility(request, station_id, pin_code):
     try:
         pin_object = PinCode.objects.get(station=station_id, pin_code=pin_code)
         # Pin exists #
-        if pin_object.is_valid() and get_and_check_votability(pin_object.voter):
+        if get_and_check_votability(pin_object.voter):
             return JsonResponse({'valid_pin': True,
                                  'already_voted': False})
         return JsonResponse({'valid_pin': True,
