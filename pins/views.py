@@ -14,7 +14,7 @@ def get_pin_code(request, station_id, voter_id):
     pin_code = generate_pin_code(station_id=station_id, voter_id=voter_id)
     activate_pin(voter_id)
     return JsonResponse({'success': pin_code != None,
-                         'pin_code': str(pin_code) if pin_code else None})
+                         'pin_code': '{:06d}'.format(pin_code) if pin_code else None})
 
 
 def verify_pin_code_and_check_eligibility(request, station_id, pin_code):

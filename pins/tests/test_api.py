@@ -39,7 +39,7 @@ class GetPinCodeTests(TestCase):
         self.assertJSONEqual(response.content, {'success': False,
                                                 'pin_code': None})
 
-    @patch('pins.pin_code_generator.SystemRandom.randrange', return_value=123456)
+    @patch('pins.pin_code_generator.SystemRandom.randrange', return_value=23456)
     @patch('pins.pin_code_generator.get_and_check_votability', return_value=True)
     @patch('pins.views.activate_pin', return_value=True)
     def test_generate_pin_returns_pin_for_eligible_voter(self, *_):
@@ -49,7 +49,7 @@ class GetPinCodeTests(TestCase):
 
         self.assertEqual(response.status_code, RESPONSE_OK)
         self.assertJSONEqual(response.content, {'success': True,
-                                                'pin_code': '123456'})
+                                                'pin_code': '023456'})
 
 
 class VerifyPinCodeTests(TestCase):
