@@ -33,7 +33,7 @@ def verify_pin_code_and_check_eligibility(request, station_id, pin_code):
 
 def verify_pin_code_and_make_ineligible(request, station_id, pin_code):
     try:
-        pin_object = PinCode.objects.get(station=station_id, pin_code=pin_code)
+        pin_object = PinCode.objects.select_for_update().get(station=station_id, pin_code=pin_code)
         # Pin exists #
         if get_and_check_votability(pin_object.voter) and make_voter_ineligible(pin_object.voter):
             PinCode.objects.get(station=station_id, pin_code=pin_code).delete()
