@@ -23,6 +23,7 @@ class GetPinCodeTests(TestCase):
 
     @patch('pins.views.activate_pin', return_value=True)
     @patch('pins.views.has_get_pin_code_permissions', return_value=True)
+    @patch('pins.pin_code_generator.get_and_check_votability', return_value=True)
     def test_endpoint_returns_repsonse(self, *_):
         url = reverse('pins:get_pin_code', args=(
             STATION_PK, ELIGIBLE_VOTER_PK,))
@@ -32,6 +33,7 @@ class GetPinCodeTests(TestCase):
 
     @patch('pins.views.activate_pin', return_value=True)
     @patch('pins.views.has_get_pin_code_permissions', return_value=True)
+    @patch('pins.pin_code_generator.get_and_check_votability', return_value=False)
     def test_generate_pin_returns_none_for_invalid_voter(self, *_):
         url = reverse('pins:get_pin_code', args=(
             STATION_PK, INELIGBLE_VOTER_PK,))
@@ -45,6 +47,7 @@ class GetPinCodeTests(TestCase):
     @patch('pins.pin_code_generator.get_and_check_votability', return_value=True)
     @patch('pins.views.activate_pin', return_value=True)
     @patch('pins.views.has_get_pin_code_permissions', return_value=True)
+    @patch('pins.pin_code_generator.get_and_check_votability', return_value=True)
     def test_generate_pin_returns_pin_for_eligible_voter(self, *_):
         url = reverse('pins:get_pin_code', args=(
             STATION_PK, ELIGIBLE_VOTER_PK,))
