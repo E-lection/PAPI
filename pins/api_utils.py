@@ -4,9 +4,9 @@ import json
 
 from api_key_verification import PINS_KEY
 
-VOTER_API_URL = 'http://127.0.0.1:8000/check_votable/'
-PIN_ACTIVATION_URL = 'http://127.0.0.1:8000/set_voter_has_active_pin/'
-VOTER_INELIGIBLE_URL = 'http://127.0.0.1:8000/make_voter_ineligible/'
+VOTER_API_URL = 'http://voting.eelection.co.uk/check_votable/'
+PIN_ACTIVATION_URL = 'http://voting.eelection.co.uk/set_voter_has_active_pin/'
+VOTER_INELIGIBLE_URL = 'http://voting.eelection.co.uk/make_voter_ineligible/'
 
 def check_votablity(votability_data):
     # Returns TRUE if someone can vote
